@@ -43,12 +43,12 @@ public struct LabelSwitchConfig {
     
     public static let defaultLeft = LabelSwitchConfig(text: "Left",
                                                  textColor: .white,
-                                                      font: .boldSystemFont(ofSize: 20),
+                                                      font: UIFont(name: "Kittithada Roman 55 SP", size: 20) ?? UIFont.boldSystemFont(ofSize: 20),
                                            backgroundColor: UIColor.red)
     
     public static let defaultRight = LabelSwitchConfig(text: "Right",
                                                   textColor: .white,
-                                                       font: .boldSystemFont(ofSize: 20),
+                                                       font: UIFont(name: "Kittithada Roman 55 SP", size: 20) ?? UIFont.boldSystemFont(ofSize: 20),
                                             backgroundColor: UIColor.blue)
 }
 

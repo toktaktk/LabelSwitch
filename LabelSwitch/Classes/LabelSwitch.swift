@@ -13,7 +13,7 @@ public protocol  LabelSwitchDelegate : class {
     func switchChangToState(sender: LabelSwitch) -> Void
 }
 
-private class LabelSwitchPart {
+class LabelSwitchPart {
     let label: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
@@ -55,6 +55,7 @@ private class LabelSwitchPart {
     }
     
     func setState(_ state: LabelSwitchPartState) {
+        
         mask.frame = state.backMaskFrame
         back.frame = state.backMaskFrame
     }
@@ -66,8 +67,8 @@ private class LabelSwitchPart {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = CGSize(width: 0, height: 1)
+        view.layer.shadowOpacity = 0.2
         addSubview(view)
         return view
     }()
@@ -86,13 +87,13 @@ private class LabelSwitchPart {
         return part
     }()
     
-    private var switchConfigL: LabelSwitchConfig! {
+     var switchConfigL: LabelSwitchConfig! {
         didSet {
             stateL.backgroundColor = switchConfigL.backgroundColor
             leftPart.setConfig(switchConfigL)
         }
     }
-    private var switchConfigR: LabelSwitchConfig! {
+     var switchConfigR: LabelSwitchConfig! {
         didSet {
             stateR.backgroundColor = switchConfigR.backgroundColor
             rightPart.setConfig(switchConfigR)
@@ -103,8 +104,8 @@ private class LabelSwitchPart {
     private let circlePadding: CGFloat
     private let minimumSize: CGSize
     
-    private var stateL = LabelSwitchUIState()
-    private var stateR = LabelSwitchUIState()
+     var stateL = LabelSwitchUIState()
+     var stateR = LabelSwitchUIState()
     
     private var fullSizeTapGesture: UITapGestureRecognizer?
     
@@ -199,6 +200,7 @@ private class LabelSwitchPart {
     private func setupCircle() {
         let diameter = bounds.height - 2 * circlePadding
         circleView.layer.cornerRadius = diameter / 2
+//        circleView.backgroundColor = .red
         circleView.layer.shadowRadius = bounds.height * 0.05
         let circleSize = CGSize(width: diameter, height: diameter)
         
@@ -207,6 +209,8 @@ private class LabelSwitchPart {
         
         stateR.circleFrame = CGRect(origin: CGPoint(x: bounds.width - diameter - circlePadding, y: circlePadding),
                                       size: circleSize)
+        
+    
         /// Add the touch event to the circle view
         circleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(switchTapped(sender:))))
     }
@@ -214,22 +218,22 @@ private class LabelSwitchPart {
     /// Set the label's frame and color
     private func setupLabel() {
         leftPart.label.center = CGPoint(x: (bounds.width - bounds.height + edge) / 2,
-                                        y: bounds.height / 2)
+                                        y: bounds.height / 2.3)
         
         rightPart.label.center = CGPoint(x: (bounds.width + bounds.height - edge) / 2,
-                                         y: bounds.height / 2)
+                                         y: bounds.height / 2.3)
     }
     
     /// Set the frame for the text mask
     private func setupTextMask() {
         stateL.leftPartState.backMaskFrame = bounds.offsetBy(dx: -bounds.width, dy: 0)
-        stateL.rightPartState.backMaskFrame = bounds
-
+        stateL.rightPartState.backMaskFrame =  bounds.insetBy(dx: -bounds.width, dy: 0)
+        
         stateR.leftPartState.backMaskFrame = bounds
         stateR.rightPartState.backMaskFrame = bounds.offsetBy(dx: bounds.width, dy: 0)
     }
     
-    private func setConfig(left: LabelSwitchConfig, right: LabelSwitchConfig) {
+    public func setConfig(left: LabelSwitchConfig, right: LabelSwitchConfig) {
         switchConfigL = left
         switchConfigR = right
     }
